@@ -21,6 +21,7 @@ default['mysql']['password'] = ""
 default['mysql']['connector'] = "mysql-connector-java.jar"
 default['mysql']['connector_path'] = "/usr/share/java"
 
+default['postgres']['dbport'] = "5432"
 #Cloudera manager Server settings
 default['cm']['port'] = "7182"
 default['cm']['database'] = "mysql"
