@@ -2,7 +2,7 @@
 # Cookbook Name:: cloudera_manager
 # Recipe:: mgmnt_DDL
 #
-# Copyright 2015, Cloudwick Inc.
+# Copyright 2015, P Sudarshan Rao.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.

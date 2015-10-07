@@ -70,29 +70,29 @@ end
 default['cm']['amon'] = {"dbname" => "amon", 
 			"dbuser" => "amon", 
 			"dbpasswd" => "amon_password", 
-			"dbhost" => "#{node[:cm][:dbhost]}"}
+			"dbhost" => "#{node[:cm_server][:hostname]}"}
 default['cm']['smon'] = {"dbname" => "smon", 
 			"dbuser" => "smon", 
 			"dbpasswd" => "smon_password", 
-			"dbhost" => "#{node[:cm][:dbhost]}"}
+			"dbhost" => "#{node[:cm_server][:hostname]}"}
 default['cm']['rman'] = {"dbname" => "rman", 
 			"dbuser" => "rman", 
 			"dbpasswd" => "rman_password", 
-			"dbhost" => "#{node[:cm][:dbhost]}"}
+			"dbhost" => "#{node[:cm_server][:hostname]}"}
 default['cm']['hmon'] = {"dbname" => "hmon", 
 			"dbuser" => "hmon", 
 			"dbpasswd" => "hmon_password", 
-			"dbhost" => "#{node[:cm][:dbhost]}"}
+			"dbhost" => "#{node[:cm_server][:hostname]}"}
 default['cm']['hive'] = {"dbname" => "metastore", 
 			"dbuser" => "hive", 
 			"dbpasswd" => "hive_password", 
-			"dbhost" => "#{node[:cm][:dbhost]}"}
+			"dbhost" => "#{node[:cm_server][:hostname]}"}
 default['cm']['sentry'] = {"dbname" => "sentry", 
 			"dbuser" => "sentry", 
 			"dbpasswd" => "sentry_password", 
-			"dbhost" => "#{node[:cm][:dbhost]}"}
+			"dbhost" => "#{node[:cm_server][:hostname]}"}
 default['cm']['nav'] = {"dbname" => "nav", 
 			"dbuser" => "nav", 
 			"dbpasswd" => "nav_password", 
-			"dbhost" => "#{node[:cm][:dbhost]}"}
+			"dbhost" => "#{node[:cm_server][:hostname]}"}
 

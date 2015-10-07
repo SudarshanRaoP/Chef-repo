@@ -1,8 +1,8 @@
-# Author:: Sudarshan (<sudarshan.pakala@cloudwick.com>)
-# Cookbook Name:: cloudera-manager
+# Author:: Sudarshan (<sudarshan.visham188@gmail.com>)
+# Cookbook Name:: cloudera_manager
 # Recipe:: postgres
 #
-# Copyright 2015, Cloudwick Inc.
+# Copyright 2015, P Sudarshan Rao.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 
 #Sanity check
 if node[:fqdn] != node[:cm][:dbhost]
-  Chef::Log.error("Current host and [:cm][:dbhost] don't match. Make sure recipe[cloudera-manager::mysql] is assigned to correct machine")
+  Chef::Log.error("Current host and [:cm][:dbhost] don't match. Make sure recipe[cloudera_manager::postgres] is assigned to correct machine")
 end
 
 if node[:cm][:database] != "postgres"
