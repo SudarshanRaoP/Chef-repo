@@ -25,8 +25,8 @@ directory "#{node[:java][:base_dir]}" do
         group "root"
 end
 #Maintaning jdk<version>.tar.gz in Java base directory
-cookbook_file "#{node[:java][:base_dir]}/#{node[:java][:tarfile]}" do
-	source "#{node[:java][:tarfile]}"
+remote_file "#{node[:java][:base_dir]}/#{node[:java][:tarfile]}" do
+	source "#{node[:java][:remote_url]}"
 	owner "root"
 	group "root"
 	mode "775"
