@@ -139,7 +139,7 @@ scm_debug=INFO
 #
 # Note that if neither verify_cert_file or verify_cert_dir is set, certificate
 # verification will not be performed.
-#verify_cert_file=/opt/cloudera/security/x509/server161.crt
+#verify_cert_file=/opt/cloudera/security/x509/<%=node[:fqdn]%>.crt
 
 # Directory containing CA certificates in PEM format. The files each contain one
 # CA certificate. The files are looked up by the CA subject name hash value,
@@ -164,11 +164,11 @@ scm_debug=INFO
 #
 # Note that if neither verify_cert_file or verify_cert_dir is set, certificate
 # verification will not be performed.
-#verify_cert_dir=/opt/cloudera/security/x509/server161.crt
+#verify_cert_dir=/opt/cloudera/security/x509/<%=node[:fqdn]%>.crt
 # PEM file containing client private key.
-#client_key_file=/root/server161.cloudwick.com.pem
+#client_key_file=/root/<%=node[:fqdn]%>.pem
 # Text file containing client private key password.
-#client_keypw_file=Cl0udwick
+#client_keypw_file=
 
 # PEM file containing client certificate.
 # client_cert_file=
