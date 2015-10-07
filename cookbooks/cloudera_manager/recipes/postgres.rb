@@ -27,24 +27,35 @@ end
 
 case node[:platform]
 when "ubuntu"
-  apt_package "postgresql" do
+  template "/etc/apt/sources.list.d/pgdg.list" do
+    source "pgdg.list.erb"
+    owner "root"
+    mode "755"
+    group "root"
+    variables ({
+    :release_tag => node[:ubuntu_release]
+    })
+  end
+  execute "apt-key-add" do
+  command "curl -s #{node[:postgres][:apt_key]} |sudo apt-key add -"
+  not_if do (%x(sudo apt-key list)).include? 'PostgreSQL Debian Repository') end
+  end
+  apt_package "postgresql-#{node[:postgres][:version]}" do
     notifies :run, "bash[cm_db_user_setup_pg]", :delayed
   end
   service "postgresql" do
     action [:start, :enable]
     supports :restart => true, :reload => true
   end
-#Determining installed Postresql version
-pver = /([89]\.\d)/.match(%x(psql --version))
 
-  template "/etc/postgres/#{pver}/main/pg_hba.conf" do
+  template "/etc/postgres/#{node[:postgres][:version]}/main/pg_hba.conf" do
     source "pg_hba.conf.erb"
     mode "0640"
     owner "postgres"
     group "postgres"
     notifies :reload, "service[postgres]", :immediately
   end
-  template "/etc/postgres/#{pver}/main/postgresql.conf" do
+  template "/etc/postgres/#{node[:postgres][:version]}/main/postgresql.conf" do
     source "postgresql.conf.erb"
     mode "0644"
     owner "postgres"

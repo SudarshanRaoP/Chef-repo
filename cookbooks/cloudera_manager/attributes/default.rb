@@ -21,7 +21,9 @@ default['mysql']['password'] = ""
 default['mysql']['connector'] = "mysql-connector-java.jar"
 default['mysql']['connector_path'] = "/usr/share/java"
 
+default['postgres']['version'] = "9.1"
 default['postgres']['dbport'] = "5432"
+default['postgres']['apt_key'] = "https://www.postgresql.org/media/keys/ACCC4CF8.asc"
 #Cloudera manager Server settings
 default['cm']['port'] = "7182"
 default['cm']['database'] = "mysql"
