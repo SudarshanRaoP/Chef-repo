@@ -68,7 +68,7 @@ execute "ib_logfiles_delete" do
 end
 
 execute "scm_db_setup_mysql" do
-  command "echo #{node[:mysql][:password]} | mysql -u root -p -e ""CREATE DATABASES #{node[:cm][:dbname]};CREATE USER '#{node[:cm][:dbuser]}'@'localhost' identified by #{node[:cm][:dbpasswd]};GRANT ALL ON #{node[:cm][:dbname]}.* TO '#{node[:cm][:dbuser]}'@'localhost';CREATE USER '#{node[:cm][:dbuser]}'@'#{node[:cm][:hostname]}' identified by #{node[:cm][:dbpasswd]};GRANT ALL ON #{node[:cm][:dbname]}.* TO '#{node[:cm][:dbuser]}'@'#{node[:cm][:hostname]}';"""
+  command "echo #{node[:mysql][:password]} | mysql -u root -p -e ""CREATE DATABASES #{node[:cm][:dbname]};CREATE USER '#{node[:cm][:dbuser]}'@'localhost' identified by #{node[:cm][:dbpasswd]};GRANT ALL ON #{node[:cm][:dbname]}.* TO '#{node[:cm][:dbuser]}'@'localhost';CREATE USER '#{node[:cm][:dbuser]}'@'#{node[:cm_server][:hostname]}' identified by #{node[:cm][:dbpasswd]};GRANT ALL ON #{node[:cm][:dbname]}.* TO '#{node[:cm][:dbuser]}'@'#{node[:cm_server][:hostname]}';"""
   action :run
   creates "/var/lib/mysql/#{node[:cm][:dbname]}"
 end
