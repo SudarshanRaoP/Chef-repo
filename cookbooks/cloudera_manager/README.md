@@ -1,10 +1,10 @@
-ambari Cookbook
+cloudera_manager Cookbook
 ================
-This cookbook deploys postgresql, ambari-server and ambari-agent.
+This cookbook deploys mysql, postgresql,cloudera-manager-server and cloudera-manager-agent.
 
 Requirements
 ------------
-jdk_jce cookbook
+java_setup cookbook
 
 Attributes
 ----------
@@ -16,224 +16,148 @@ Attributes
   <th>Default</th>
   </tr>
   <tr>
-    <td><tt>['ambari']['postgres']['dbuser']</tt></td>
+    <td><tt>['cm']['port']</tt></td>
     <td>String</td>
-    <td>Usename for postgres Superuser.</td>
-    <td><tt>postgres</tt></td>
+    <td>Cloudera Manager server port.</td>
+    <td><tt>7182</tt></td>
   </tr>
   <tr>
-    <td><tt>['ambari']['postgres']['dbpasswd']</tt></td>
+    <td><tt>['cm']['database']</tt></td>
     <td>String</td>
-    <td>Password for postgres user.</td>
+    <td>Database type.</td>
+    <td>mysql</td>
   </tr>
   <tr>
-    <td><tt>['ambari']['database']</tt></td>
+    <td><tt>['cm']['dbname']</tt></td>
     <td>String</td>
-    <td>Type of database for Ambari.</td>
-    <td><tt>postgres</tt></td>
+    <td>Cloudera Manager database name.</td>
+    <td><tt>scm</tt></td>
   </tr>
   <tr>
-    <td><tt>['ambari']['postgres']['username']</tt></td>
+    <td><tt>['cm']['dbuser']</tt></td>
     <td>String</td>
-    <td>Username for postgesql superuser.</td>
-    <td><tt>postgres</tt></td>
+    <td>Cloudera Manager database user.</td>
+    <td><tt>scm</tt></td>
   </tr>
   <tr>
-    <td><tt>['ambari']['postgres']['password']</tt></td>
+    <td><tt>['cm']['dbpasswd']</tt></td>
     <td>String</td>
-    <td>Password for postgresql superuser.</td>
-    <td><tt>postgres</tt></td>
+    <td>Cloudera Manager database password.</td>
+    <td><tt>scm_password</tt></td>
   </tr>
   <tr>
-    <td><tt>['ambari']['postgres']['dbport']</tt></td>
+    <td><tt>['cm_server']['hostname']</tt></td>
     <td>String</td>
-    <td>Listen port for postgresql server.</td>
-    <td><tt>5432</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['ambari']['postgres']['dbdirver']</tt></td>
-    <td>String</td>
-    <td>Driver class for postgresql.</td>
-    <td><tt>org.postgresql.Driver</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['ambari']['postgres']['schema']</tt></td>
-    <td>String</td>
-    <td>Postgresql database schema.</td>
-    <td><tt>public</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['ambari']['postgres']['jdbc_url']</tt></td>
-    <td>String</td>
-    <td>JDBC url for postgresql server</td>
-    <td><tt>jdbc:postgresql://server_hostname:5432/ambari</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['ambari']['mysql']['username']</tt></td>
-    <td>String</td>
-    <td>Username for mysql superuser.</td>
-    <td><tt>root</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['ambari']['mysql']['password']</tt></td>
-    <td>String</td>
-    <td>Password for mysql superuser.</td>
+    <td>Cloudera Manager server hostname.</td>
     <td><tt></tt></td>
   </tr>
   <tr>
-    <td><tt>['ambari']['mysql']['dbport']</tt></td>
+    <td><tt>['cm']['java_home']</tt></td>
     <td>String</td>
-    <td>Listen port for Mysql server.</td>
-    <td><tt>3306</tt></td>
+    <td>JAVA_HOME.</td>
+    <td><tt>node[:java][:home]</tt></td>
   </tr>
   <tr>
-    <td><tt>['ambari']['mysql']['dbdirver']</tt></td>
+    <td><tt>['cm']['dbhost']</tt></td>
     <td>String</td>
-    <td>Driver class for postgresql.</td>
-    <td><tt>org.mysql.jdbc.Driver</tt></td>
+    <td>Database host.</td>
+    <td><tt></tt></td>
   </tr>
   <tr>
-    <td><tt>['ambari']['mysql']['jdbc_url']</tt></td>
+    <td><tt>['cm']['version]</tt></td>
     <td>String</td>
-    <td>JDBC url for postgresql server</td>
-    <td><tt>jdbc:mysql//server_hostname:3306/ambari</tt></td>
+    <td>Cloudera Manager version</td>
+    <td><tt>5</tt></td>
   </tr>
   <tr>
-    <td><tt>['ambari-server']['jdbc_url']</tt></td>
+    <td><tt>['cm']['reposerver']</tt></td>
     <td>String</td>
-    <td>JDBC driver for database.</td>
-    <td><tt>Auto assigned based on type of database.</tt></td>
+    <td>Cloudera Manager repository server.</td>
+    <td><tt>http://archive.cloudera.com</tt></td>
   </tr>
   <tr>
-    <td><tt>['ambari']['dbname']</tt></td>
+    <td><tt>['cm']['yum_gpgkey']</tt></td>
     <td>String</td>
-    <td>Database name for Ambari</td>
-    <td><tt>ambari</tt></td>
+    <td>Cloudera manager repository gpgkey..</td>
+    <td><tt>RPM-GPG-KEY-cloudera</tt></td>
   </tr>
   <tr>
-  <td><tt>['ambari']['dbuser']</tt></td>
+    <td><tt>['mysql']['password']</tt></td>
     <td>String</td>
-    <td>Username for ambari database.</td>
-    <td><tt>ambari</tt></td>
+    <td>Mysql server password.</td>
+    <td><tt></tt></td>
   </tr>
   <tr>
-  <td><tt>['ambari']['dbpasswd']</tt></td>
+    <td><tt>['mysql']['connector']</tt></td>
     <td>String</td>
-    <td>Password for ambari database.</td>
+    <td>Mysql server connector.</td>
+    <td><tt>mysql-connector-java.jar</tt></td>
   </tr>
   <tr>
-  <td><tt>['ambari-server']['jdbc_driver']</tt></td>
+    <td><tt>['mysql']['connector_path']</tt></td>
     <td>String</td>
-    <td>Database driver class name.</td>
-    <td><tt>Auto assigned based on type of database selected</tt></td>
-  </tr>
-  <tr>
-  <td><tt>['ambari']['dbhost']</tt></td>
-    <td>String</td>
-    <td>Database machine hostname</td>
-    <td><tt>server.domain</tt></td>
-  </tr>
-  <tr>
-  <td><tt>['ambari-server']['dbport']</tt></td>
-    <td>String</td>
-    <td>Database listen port</td>
-    <td><tt>5432</tt></td>
-  </tr>
-  <tr>
-  <td><tt>['ambari']['reposerver']</tt></td>
-    <td>String</td>
-    <td>Ambari public repository server.</td>
-    <td><tt>http://public-repo-1.hortonworks.com</tt></td>
-  </tr>
-  <tr>
-  <td><tt>['ambari']['version']</tt></td>
-    <td>String</td>
-    <td>Ambari Version.</td>
-    <td><tt>2.0.0</tt></td>
-  </tr>
-  <tr>
-  <td><tt>['ambari']['gpgkey']</tt></td>
-    <td>String</td>
-    <td>Repository gpgkey.</td>
-    <td><tt>RPM-GPG-KEY/RPM-GPG-KEY-Jenkins</tt></td>
-  </tr>
-  <tr>
-  <td><tt>['ambari-server']['user']</tt></td>
-    <td>String</td>
-    <td>User to start Ambari server as.</td>
-    <td><tt>root</tt></td>
-  </tr>
-  <tr>
-  <td><tt>['ambari']['java_home']</tt></td>
-    <td>String</td>
-    <td>Java home for ambari. Must be same as `[:jdk][:extracteddir]` from jdk_jce cookbook.</td>
-    <td><tt>/usr/jdk64/jdk1.7.0_79</tt></td>
-  </tr>
-  <tr>
-  <td><tt>['ambari-server']['hostname']</tt></td>
-    <td>String</td>
-    <td>Hostname of Ambari-server.</td>
-    <td><tt>ambari-server.mydomain</tt></td>
+    <td>Mysql JDBC connector path.</td>
+    <td><tt>/usr/share/java</tt></td>
   </tr>
 </table>
 
 
 Usage
 -----
-#### ambari::postgres
-Just include `ambari::postgres` in your node's `run_list`:
+#### cloudera_manager::postgres
+Just include `cloudera_manager::postgres` in your node's `run_list`:
 
 ```json
 {
   "name":"my_node",
   "run_list": [
-    "recipe[ambari::postgres]"
+    "recipe[cloudera_manager::postgres]"
   ]
 }
 ```
-#### ambari::mysql
-Just include `ambari::mysql` in your node's `run_list`:
+#### cloudera_manager::mysql
+Just include `cloudera_manager::mysql` in your node's `run_list`:
 
 ```json
 {
   "name":"my_node",
   "run_list": [
-    "recipe[ambari::postgres]"
+    "recipe[cloudera_manager::mysql]"
   ]
 }
 ```
-#### ambari::ambari_repo
-Just include `ambari::ambari_repo` in your node's `run_list`:
+#### cloudera_manager::cm_repo
+Just include `cloudera_manager::cm_repo` in your node's `run_list`:
 
 ```json
 {
   "name":"my_node",
   "run_list": [
-    "recipe[ambari::ambari_repo]"
-  ]
-}
-```
-
-#### ambari::ambari-server
-Just include `ambari::ambari-server` in your node's `run_list`, required recipes have been included:
-
-```json
-{
-  "name":"my_node",
-  "run_list": [
-    "recipe[ambari::ambari-server]"
+    "recipe[cloudera_manager::cm_repo]"
   ]
 }
 ```
 
-#### ambari::ambari-agent
-Include `ambari::ambari-agent` in your node's `run_list`, required recipes have been included:
+#### cloudera_manager::cm_server
+Just include `cloudera_manager::cm_server` in your node's `run_list`, required recipes have been included:
 
 ```json
 {
   "name":"my_node",
   "run_list": [
-    "recipe[ambari::ambari-agent]"
+    "recipe[cloudera_manager::cm_server]"
+  ]
+}
+```
+
+#### cloudera_manager::cm_agent
+Include `cloudera_manager::cm_agent` in your node's `run_list`, required recipes have been included:
+
+```json
+{
+  "name":"my_node",
+  "run_list": [
+    "recipe[cloudera_manager::cm_agent]"
   ]
 }
 ```
@@ -242,7 +166,7 @@ License and Authors
 -------------------
 Author: Sudarshan
 
-Copyright: 2015, Cloudwick Inc.
+Copyright: 2015, P Sudarshan Rao <sudarshan.visham188@gmail.com>.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 

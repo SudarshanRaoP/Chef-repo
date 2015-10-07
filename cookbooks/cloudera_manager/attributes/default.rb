@@ -18,7 +18,7 @@ end
 
 
 default['mysql']['password'] = ""
-default['mysql']['connector'] = "mysql-connector-java"
+default['mysql']['connector'] = "mysql-connector-java.jar"
 default['mysql']['connector_path'] = "/usr/share/java"
 
 #Cloudera manager Server settings
