@@ -29,7 +29,7 @@ default['cm']['dbname'] = "scm"
 default['cm']['dbuser'] = "scm"
 default['cm']['dbpasswd'] = "scm"
 default['cm_server']['hostname'] = ""
-
+default['cm_server']['ipaddress'] = ""
 default['cm']['dbhost'] = ""
 default['cm']['version'] = "5" # Single digit
 
