@@ -2,6 +2,16 @@ ambari Cookbook
 ================
 This cookbook deploys mysql, postgresql, ambari-server and ambari-agent.
 
+Supported OS:
+Ubuntu 14*, 12
+Redhat/CentOS 7*, 6, 5
+
+Supported Ambari versions:
+2.1.2 - 1.7.0
+
+Supported Databases:
+MySQL and Postgres
+
 Requirements
 ------------
 java_setup cookbook
