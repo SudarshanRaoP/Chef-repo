@@ -77,7 +77,7 @@ if ! ["ubuntu", "redhat", "centos"].include?(node[:platform])
   raise
 end
 
-if ! node[:ambari][:version][/^[12]\.\d\.[012]/]
+if ! node[:ambari][:version][/^[12]\.\d\.[012]$/]
   Chef::Log.error("Invalid Ambari version!!")
   raise
 end
