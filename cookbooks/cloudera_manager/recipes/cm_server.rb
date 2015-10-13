@@ -30,7 +30,6 @@ if node[:cm][:database] == "mysql"
     mode "0755"
     owner "root"
     group "root"
-    creates "#{node[:mysql][:connector_path]}/#{node[:mysql][:connector]}"
   end
 end
 

@@ -18,7 +18,7 @@
 
 #Sanity check
 if node[:fqdn] != node[:cm][:dbhost]
-  Chef::Log.error("Current host and [:cm][:dbhost] don't match. Make sure recipe[cloudera-manager::mysql] is assigned to correct machine")
+  Chef::Log.error("Current host and [:cm][:dbhost] don't match. Make sure recipe[cloudera_manager::mysql] is assigned to correct machine")
 end
 
 if node[:cm][:database] != "mysql"
@@ -67,8 +67,10 @@ execute "ib_logfiles_delete" do
   supports :run => true
 end
 
-execute "scm_db_setup_mysql" do
-  command "echo #{node[:mysql][:password]} | mysql -u root -p -e ""CREATE DATABASES #{node[:cm][:dbname]};CREATE USER '#{node[:cm][:dbuser]}'@'localhost' identified by #{node[:cm][:dbpasswd]};GRANT ALL ON #{node[:cm][:dbname]}.* TO '#{node[:cm][:dbuser]}'@'localhost';CREATE USER '#{node[:cm][:dbuser]}'@'#{node[:cm_server][:hostname]}' identified by #{node[:cm][:dbpasswd]};GRANT ALL ON #{node[:cm][:dbname]}.* TO '#{node[:cm][:dbuser]}'@'#{node[:cm_server][:hostname]}';"""
+bash "scm_db_setup_mysql" do
+  code <<-EOH
+mysql -u root --password=#{node[:mysql][:password]} -e "CREATE DATABASE #{node[:cm][:dbname]};CREATE USER '#{node[:cm][:dbuser]}'@'localhost' identified by '#{node[:cm][:dbpasswd]}';GRANT ALL ON #{node[:cm][:dbname]}.* TO '#{node[:cm][:dbuser]}'@'localhost';CREATE USER '#{node[:cm][:dbuser]}'@'#{node[:cm_server][:hostname]}' identified by '#{node[:cm][:dbpasswd]}';GRANT ALL ON #{node[:cm][:dbname]}.* TO '#{node[:cm][:dbuser]}'@'#{node[:cm_server][:hostname]}';"
+EOH
   action :run
   creates "/var/lib/mysql/#{node[:cm][:dbname]}"
 end

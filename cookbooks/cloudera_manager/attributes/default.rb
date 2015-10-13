@@ -1,3 +1,4 @@
+require 'socket'
 #OS
 if ! ["ubuntu", "redhat", "centos"].include?(node[:platform])
   Chef::Log.error("This module only supports Ubuntu and Redhat/CentOS")
@@ -14,8 +15,8 @@ if node[:platform] == "ubuntu"
     else
       Chef::Log.error("Cloudera Manager only support Ubuntu 12.x/10.x")
       raise
+  end
 end
-
 
 default['mysql']['password'] = ""
 default['mysql']['connector'] = "mysql-connector-java.jar"
@@ -32,7 +33,7 @@ default['cm']['dbname'] = "scm"
 default['cm']['dbuser'] = "scm"
 default['cm']['dbpasswd'] = "scm"
 default['cm_server']['hostname'] = ""
-default['cm_server']['ipaddress'] = ""
+default['cm_server']['ipaddress'] = Socket::getaddrinfo(node['cm_server']['hostname'],Socket::AF_INET)[0][3]
 default['cm']['dbhost'] = ""
 default['cm']['version'] = "5" # Single digit
 

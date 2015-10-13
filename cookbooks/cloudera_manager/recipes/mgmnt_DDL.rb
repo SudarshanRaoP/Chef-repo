@@ -19,8 +19,10 @@
 case node[:cm][:database]
 when "mysql"
 node[:cm][:mgmnt].each do |mgmnt|
-  execute "cm_mgmnt_db_setup_mysql" do
-    command "echo #{node[:mysql][:password]} | mysql -u root -p -e ""CREATE DATABASE #{node[:cm][mgmnt][:dbname]};CREATE USER '#{node[:cm][mgmnt]['dbuser']}'@'%' identified by '#{node[:cm][mgmnt][:dbpasswd]}';GRANT ALL ON #{node[:cm][mgmnt][:dbname]}.* to '#{node[:cm][mgmnt][:dbuser]}'@'%';CREATE USER '#{node[:cm][mgmnt]['dbuser']}'@'localhost' identified by '#{node[:cm][mgmnt][:dbpasswd]}';GRANT ALL ON #{node[:cm][mgmnt][:dbname]}.* to '#{node[:cm][mgmnt][:dbuser]}'@'localhost';CREATE USER '#{node[:cm][mgmnt]['dbuser']}'@'#{node[:cm][mgmnt][:dbhost]}' identified by '#{node[:cm][mgmnt][:dbpasswd]}';GRANT ALL ON #{node[:cm][mgmnt][:dbname]}.* to '#{node[:cm][mgmnt][:dbuser]}'@'#{node[:cm][mgmnt][:dbhost]}';"""
+  bash "cm_mgmnt_db_setup_mysql" do
+  code <<-EOH 
+mysql -u root --password=#{node[:mysql][:password]} -e "CREATE DATABASE #{node[:cm][mgmnt][:dbname]};CREATE USER '#{node[:cm][mgmnt]['dbuser']}'@'%' identified by '#{node[:cm][mgmnt][:dbpasswd]}';GRANT ALL ON #{node[:cm][mgmnt][:dbname]}.* to '#{node[:cm][mgmnt][:dbuser]}'@'%';CREATE USER '#{node[:cm][mgmnt]['dbuser']}'@'localhost' identified by '#{node[:cm][mgmnt][:dbpasswd]}';GRANT ALL ON #{node[:cm][mgmnt][:dbname]}.* to '#{node[:cm][mgmnt][:dbuser]}'@'localhost';CREATE USER '#{node[:cm][mgmnt]['dbuser']}'@'#{node[:cm][mgmnt][:dbhost]}' identified by '#{node[:cm][mgmnt][:dbpasswd]}';GRANT ALL ON #{node[:cm][mgmnt][:dbname]}.* to '#{node[:cm][mgmnt][:dbuser]}'@'#{node[:cm][mgmnt][:dbhost]}';"
+EOH
   creates "/var/lib/mysql/#{node[:cm][mgmnt][:dbname]}"
   end
 end

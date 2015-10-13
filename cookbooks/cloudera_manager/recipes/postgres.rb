@@ -38,7 +38,7 @@ when "ubuntu"
   end
   execute "apt-key-add" do
   command "curl -s #{node[:postgres][:apt_key]} |sudo apt-key add -"
-  not_if do (%x(sudo apt-key list)).include? 'PostgreSQL Debian Repository') end
+  not_if do ((%x(sudo apt-key list)).include? 'PostgreSQL Debian Repository') end
   end
   apt_package "postgresql-#{node[:postgres][:version]}" do
     notifies :run, "bash[cm_db_user_setup_pg]", :delayed
