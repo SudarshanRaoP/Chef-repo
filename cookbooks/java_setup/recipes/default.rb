@@ -25,13 +25,13 @@ directory "#{node[:java][:base_dir]}" do
         group "root"
 end
 #Maintaning jdk<version>.tar.gz in Java base directory
-remote_file "#{node[:java][:base_dir]}/#{node[:java][:tarfile]}" do
-	source "#{node[:java][:remote_url]}"
-	owner "root"
-	group "root"
-	mode "775"
-	action :create
+execute "download_jdk" do
+        cwd "#{node[:java][:base_dir]}"
+	command "wget --no-check-certificate #{node[:java][:remote_url]} -O #{node[:java][:tarfile]}"
+	action :run
+        creates "#{node[:java][:base_dir]}/#{node[:java][:tarfile]}"
 end
+
 #Extracting Java from tar.gz.
 execute "jdk_install" do
 	cwd "#{node[:java][:base_dir]}"
