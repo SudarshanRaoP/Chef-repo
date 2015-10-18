@@ -25,6 +25,11 @@ include_recipe "java_setup"
 include_recipe "cloudera_manager::cm_repo"
 
 if node[:cm][:database] == "mysql"
+  directory "#{node[:mysql][:connector_path]}" do
+    owner "root"
+    mode "0775"
+    group "root"
+  end
   cookbook_file "#{node[:mysql][:connector_path]}/#{node[:mysql][:connector]}" do
     source "#{node[:mysql][:connector]}"
     mode "0755"

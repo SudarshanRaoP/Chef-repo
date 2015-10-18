@@ -53,14 +53,14 @@ when "ubuntu"
     mode "0640"
     owner "postgres"
     group "postgres"
-    notifies :reload, "service[postgres]", :immediately
+    notifies :reload, "service[postgresql]", :immediately
   end
   template "/etc/postgres/#{node[:postgres][:version]}/main/postgresql.conf" do
     source "postgresql.conf.erb"
     mode "0644"
     owner "postgres"
     group "postgres"
-    notifies :restart, "service[postgres]", :immediately
+    notifies :restart, "service[postgresql]", :immediately
   end
 when "redhat", "centos"
   package "postgresql-server"
@@ -103,4 +103,4 @@ EOH
   not_if do (%x(sudo -u postgres psql -c "\\l")).include? node[:cm][:dbname] end
 end
 
-include_recipe "cloudera-manager::mgmnt-DDL"
+include_recipe "cloudera_manager::mgmnt_DDL"

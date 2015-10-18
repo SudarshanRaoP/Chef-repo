@@ -39,7 +39,7 @@ default['cm']['version'] = "5" # Single digit
 
 ##Settings validation
 #Node architecture
-if node[:kernel][:machine] =! "x86_64"
+if node[:kernel][:machine] != "x86_64"
   Chef::Log.error("System architecture is not 64 bit.")
   raise
 end

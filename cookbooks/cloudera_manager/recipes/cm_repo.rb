@@ -23,7 +23,7 @@ when "ubuntu"
     mode "0644"
     owner "root"
     group "root"
-    variable({
+    variables({
     :reposerver => node[:cm][:reposerver],
     :version => node[:cm][:version],
     :release_tag => node[:ubuntu_release]
@@ -42,7 +42,7 @@ when "redhat", "centos"
     variables({
     :reposerver => node[:cm][:reposerver],
     :version => node[:cm][:version],
-    :gpgkey => node[:cm][:gpgkey],
+    :gpgkey => node[:cm][:yum_gpgkey],
     :el => node[:platform_version][/(^.{1})/]	
     })
   end
