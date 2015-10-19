@@ -48,14 +48,14 @@ when "ubuntu"
     supports :restart => true, :reload => true
   end
 
-  template "/etc/postgres/#{node[:postgres][:version]}/main/pg_hba.conf" do
+  template "/etc/postgresql/#{node[:postgres][:version]}/main/pg_hba.conf" do
     source "pg_hba.conf.erb"
     mode "0640"
     owner "postgres"
     group "postgres"
     notifies :reload, "service[postgresql]", :immediately
   end
-  template "/etc/postgres/#{node[:postgres][:version]}/main/postgresql.conf" do
+  template "/etc/postgresql/#{node[:postgres][:version]}/main/postgresql.conf" do
     source "postgresql.conf.erb"
     mode "0644"
     owner "postgres"
