@@ -97,7 +97,7 @@ bash "cm_db_user_setup_pg" do
   code <<-EOH
 sudo -u postgres createuser -d -s -r #{node[:cm][:dbuser]}
 sudo -u postgres createdb -O #{node[:cm][:dbuser]} #{node[:cm][:dbname]} 
-echo -e "#{node[:cm][:dbpasswd]}\n#{node[:cm][:dbpasswd]}\n" | sudo -u postgres psql -c "\password #{node[:cm][:dbuser]};"
+sudo -u postgres psql -c "ALTER USER #{node[:cm][:dbuser]} WITH PASSWORD '#{node[:cm][:dbpasswd]}';"
 EOH
   action :run
   not_if do (%x(sudo -u postgres psql -c "\\l")).include? node[:cm][:dbname] end
