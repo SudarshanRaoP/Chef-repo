@@ -66,9 +66,9 @@
 #
 # "local" is for Unix domain socket connections only
 #local   all         all                               ident
-local	all	postgres				md5
+local	all	postgres				peer
 # IPv4 local connections:
 host    all         all         127.0.0.1/32          ident
-host	all	    all		<%=node[:cm_server][:ipaddress]%>/24 md5
+host	all	<%=node[:cm][:dbuser]%>		<%=node[:cm_server][:ipaddress]%>/24 md5
 # IPv6 local connections:
  host    all         all         ::1/128               reject
