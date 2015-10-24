@@ -38,7 +38,7 @@ when "ubuntu"
   end
   execute "apt-key-add" do
   command "curl -s #{node[:postgres][:apt_key]} |sudo apt-key add -"
-  not_if do (%x(sudo apt-key list)).include? 'PostgreSQL Debian Repository') end
+  not_if do ((%x(sudo apt-key list)).include? 'PostgreSQL Debian Repository') end
   end
   apt_package "postgresql-#{node[:postgres][:version]}" do
     notifies :run, "bash[cm_db_user_setup_pg]", :delayed
@@ -48,7 +48,7 @@ when "ubuntu"
     supports :restart => true, :reload => true
   end
 
-  template "/etc/postgres/#{node[:postgres][:version]}/main/pg_hba.conf" do
+  template "/etc/postgresql/#{node[:postgres][:version]}/main/pg_hba.conf" do
     source "pg_hba.conf.erb"
     mode "0640"
     owner "postgres"
@@ -58,7 +58,7 @@ when "ubuntu"
     })
     notifies :reload, "service[postgres]", :immediately
   end
-  template "/etc/postgres/#{node[:postgres][:version]}/main/postgresql.conf" do
+  template "/etc/postgresql/#{node[:postgres][:version]}/main/postgresql.conf" do
     source "postgresql.conf.erb"
     mode "0644"
     owner "postgres"
@@ -100,7 +100,7 @@ bash "ambari_db_user_setup_pg" do
   code <<-EOH
 sudo -u postgres createuser -d -s -r #{node[:ambari][:dbuser]}
 sudo -u postgres createdb -O #{node[:ambari][:dbuser]} #{node[:ambari][:dbname]} 
-echo -e "#{node[:ambari][:dbpasswd]}\n#{node[:ambari][:dbpasswd]}" | sudo -u postgres psql -c "\password #{node[:ambari][:dbuser]};"        
+sudo -u postgres psql -c "ALTER USER #{node[:ambari][:dbuser]} WITH PASSWORD '#{node[:ambari][:dbpasswd]}';"        
 EOH
   action :run
   not_if do (%x(sudo -u postgres psql -c "\\l")).include? node[:ambari][:dbname] end

@@ -49,37 +49,6 @@ template "/etc/ambari-agent/conf/ambari-agent.ini" do
   notifies :restart, "service[ambari-agent]", :delayed
 end
 
-py = %x(python -V)
-case py
-when py =~ /Python 2\.7/
-  script "ambari-agent" do
-    interpreter "python2.7"
-    code <<-EOH
-import subprocess
-status = subprocess.check_output("ambari-agent status", shell=True)
-if "not" in status:
-        subprocess.call(["ambari-agent", "start"])
-else:
-        pass
-    EOH
-    action :run
-  end
-when py =~ /Python 2\.6/
-  script "ambari-server" do
-    interpreter "python2.6"
-    code <<-EOH
-import subprocess
-status = subprocess.Popen(["ambari-agent","status"], stdout=subprocess.PIPE).communicate()
-if "not" in status:
-        subprocess.call(["ambari-agent", "start"])
-else:
-        pass
-    EOH
-    action :run
-  end
-else
-  Chef::Log.warn("Skipped Ambari server auto start. Could not find compatible version of Python. Please consider installing Python 2.6 or 2.7")
-end
 
 case node[:platform]
 when "ubuntu","centos"

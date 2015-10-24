@@ -32,6 +32,11 @@ when "ubuntu"
   execute "apt-key-add" do
     command "sudo apt-key adv --recv-keys --keyserver #{node[:apt][:key_server]} #{node[:apt][:key]} && sudo apt-get update"
     not_if do (%x(sudo apt-key list)).include? 'hortonworks' end
+    notifies :run, "execute[sudo apt-get update -y]"
+  end
+  execute "sudo apt-get update -y" do
+    action :nothing
+    supports :run => true
   end
 when "redhat", "centos"
   template "/etc/yum.repos.d/ambari.repo" do

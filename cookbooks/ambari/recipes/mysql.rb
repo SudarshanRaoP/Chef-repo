@@ -47,9 +47,11 @@ when "redhat", "centos"
 else
   Chef::Log.error("OS Family '#{node[:platform_family]}' is not supported by this module.")
 end
-password = (node[:mysql][:password]) ? node[:mysql][:password] : ""
-execute "ambari_db_user_setup_mysql" do
-  command "echo #{password} | mysql -u root -p -e ""CREATE DATABASE #{node[:ambari][:dbname]};CREATE USER '#{node[:ambari][:dbuser]}'@'%' identified by '#{node[:ambari][:dbpasswd]}';GRANT ALL ON *.* TO '#{node[:ambari][:dbuser]}'@'%';CREATE USER '#{node[:ambari][:dbuser]}'@'localhost' identified by '#{node[:ambari][:dbpasswd]}';GRANT ALL ON *.* TO '#{node[:ambari][:dbuser]}'@'localhost';CREATE USER '#{node[:ambari][:dbuser]}'@'#{node["ambari-server"]["hostname"]}' identified by '#{node[:ambari][:dbpasswd]}';GRANT ALL ON *.* TO '#{node[:ambari][:dbuser]}'@'#{node["ambari-server"]["hostname"]}';"""
+
+bash "ambari_db_user_setup_mysql" do
+  code <<-EOH
+mysql -u root --password=#{node[:mysql][:password]} -e "CREATE DATABASE #{node[:ambari][:dbname]};CREATE USER '#{node[:ambari][:dbuser]}'@'%' identified by '#{node[:ambari][:dbpasswd]}';GRANT ALL ON *.* TO '#{node[:ambari][:dbuser]}'@'%';CREATE USER '#{node[:ambari][:dbuser]}'@'localhost' identified by '#{node[:ambari][:dbpasswd]}';GRANT ALL ON *.* TO '#{node[:ambari][:dbuser]}'@'localhost';CREATE USER '#{node[:ambari][:dbuser]}'@'#{node['ambari-server']['hostname']}' identified by '#{node[:ambari][:dbpasswd]}';GRANT ALL ON *.* TO '#{node[:ambari][:dbuser]}'@'#{node['ambari-server']['hostname']}';"
+EOH
   action :run
   creates "/var/lib/mysql/#{node[:ambari][:dbname]}"
 end

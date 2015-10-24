@@ -17,7 +17,7 @@
 # limitations under the License.
 
 #Sanity check
-if node['ambari-server']['hostname']} != node[:fqdn]
+if node['ambari-server']['hostname'] != node[:fqdn]
 	Chef::Log.error("Current host and ['ambari-server']['hostname'] mentioned in attribute do not match. Make sure role[ambari-server] is assigned to the correct machine.")
 	raise
 end
@@ -71,38 +71,6 @@ template "/etc/ambari-server/conf/ambari.properties" do
 	:ambari_user => node['ambari-server']['user'],
 	:dbport => node['ambari-server']['dbport']
 	})
-end
-
-py = %x(python -V)
-case py
-when py =~ /Python 2\.7/
-  script "ambari-server" do
-    interpreter "python2.7"
-    code <<-EOH
-import subprocess
-status = subprocess.check_output("ambari-server status", shell=True)
-if "not" in status:
-	subprocess.call(["ambari-server", "start"])
-else:
-	pass
-    EOH
-    action :run
-  end
-when py =~ /Python 2\.6/
-  script "ambari-server" do
-    interpreter "python2.6"
-    code <<-EOH
-import subprocess
-status = subprocess.Popen(["ambari-server","status"], stdout=subprocess.PIPE).communicate()
-if "not" in status:
-        subprocess.call(["ambari-server", "start"])
-else:
-        pass
-    EOH
-    action :run
-  end
-else
-  Chef::Log.warn("Skipped Ambari server auto start. Could not find compatible version of Python. Please consider installing Python 2.6 or 2.7")
 end
 
 service "ambari-server" do
