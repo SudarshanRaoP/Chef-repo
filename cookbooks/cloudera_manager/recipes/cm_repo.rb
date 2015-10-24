@@ -32,8 +32,12 @@ when "ubuntu"
 execute "apt-key-add" do
   command "curl -s #{node[:cm][:apt_key]} |sudo apt-key add -"
   not_if do ((%x(sudo apt-key list)).include? 'Cloudera Apt Repository') end
+  notifies :run, "execute[sudo apt-get update -y]"
 end
-execute "sudo apt-get update -y"
+execute "sudo apt-get update -y" do
+  action :nothing
+  supports :run => true
+end
 when "redhat", "centos"
   template "/etc/yum.repos.d/cloudera-manager.repo" do
     source "cloudera-manager.repo.erb"

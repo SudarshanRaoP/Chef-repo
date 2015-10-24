@@ -1,6 +1,6 @@
 # Chef-repo
-Chef Repository
+##Chef Repository
 
-Currenty consists of Java setup and Cloudera Manager setup modules.
+Currenty consists of Java setup, Cloudera Manager and Ambari setup modules.
 
 
