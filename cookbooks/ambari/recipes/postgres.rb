@@ -54,16 +54,16 @@ when "ubuntu"
     owner "postgres"
     group "postgres"
     variables ({
-    :ambari_ipaddress => Socket::getaddrinfo(node['ambari-server']['hostname'],Socket::AF_INET)[0][3]
+    :ambari_ipaddress => node['ambari-server']['ipaddress']
     })
-    notifies :reload, "service[postgres]", :immediately
+    notifies :restart, "service[postgresql]", :immediately
   end
   template "/etc/postgresql/#{node[:postgres][:version]}/main/postgresql.conf" do
     source "postgresql.conf.erb"
     mode "0644"
     owner "postgres"
     group "postgres"
-    notifies :restart, "service[postgres]", :immediately
+    notifies :restart, "service[postgresql]", :immediately
    end
 when "redhat", "centos"  
   package "postgresql-server"
