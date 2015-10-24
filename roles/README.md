@@ -17,3 +17,23 @@
     "recipe[cloudera_manager::cm_agent]"
   ],
 ```
+
+
+`ambari_server` : Ambari Server, does not include database module. Must be added before `role[ambari_server]` if database is to exist on the same machine as server.
+
+```json
+"run_list": [
+    "recipe[java_setup]",
+    "recipe[ambari::ambari-server]"
+  ],
+```
+
+`ambari_agent`
+
+```json
+"run_list": [
+    "recipe[java_setup]",
+    "recipe[ambari::ambari-agent]"
+  ],
+```
+
