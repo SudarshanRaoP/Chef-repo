@@ -1,0 +1,19 @@
+{
+  "name": "ambari_agent",
+  "description": "Ambari Agent",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[java_setup]",
+    "recipe[ambari::ambari-agent]"
+  ],
+  "env_run_lists": {
+
+  }
+}
