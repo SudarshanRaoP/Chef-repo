@@ -33,6 +33,7 @@ execute "apt-key-add" do
   command "curl -s #{node[:cm][:apt_key]} |sudo apt-key add -"
   not_if do ((%x(sudo apt-key list)).include? 'Cloudera Apt Repository') end
 end
+execute "sudo apt-get update -y"
 when "redhat", "centos"
   template "/etc/yum.repos.d/cloudera-manager.repo" do
     source "cloudera-manager.repo.erb"

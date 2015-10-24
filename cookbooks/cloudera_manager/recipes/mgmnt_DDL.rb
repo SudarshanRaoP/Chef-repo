@@ -32,7 +32,7 @@ node[:cm][:mgmnt].each do |mgmnt|
     code <<-EOH 
 sudo -u postgres createuser -d -s -r #{node[:cm][mgmnt][:dbuser]}
 sudo -u postgres createdb -O #{node[:cm][mgmnt][:dbuser]} #{node[:cm][mgmnt][:dbname]}
-echo -e "#{node[:cm][mgmnt][:dbpasswd]}\n#{node[:cm][mgmnt][:dbpasswd]}\n" | sudo -u postgres psql -c "\password #{node[:cm][mgmnt][:dbuser]};"
+sudo -u postgres psql -c "ALTER USER #{node[:cm][mgmnt][:dbuser]} WITH PASSWORD '#{node[:cm][mgmnt][:dbpasswd]}';"
     EOH
    action :run
    not_if do (%x(sudo -u postgres psql -c "\\l")).include? node[:cm][mgmnt][:dbname] end
