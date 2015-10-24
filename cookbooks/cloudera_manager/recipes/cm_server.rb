@@ -39,15 +39,32 @@ if node[:cm][:database] == "mysql"
 end
 
 package "cloudera-manager-server"
-
+case node[:cm][:database]
+when "mysql"
 template "/etc/cloudera-scm-server/db.properties" do
 	source "db.properties.erb"
 	mode "0644"
 	owner "root"
 	group "root"
+        variables ({
+		:cm_db => "mysql",
+		:cm_dbport => node[:mysql][:dbport]
+	})
 	notifies :restart, "service[cloudera-scm-server]", :immediately
 end
-
+when "postgres"
+template "/etc/cloudera-scm-server/db.properties" do
+        source "db.properties.erb"
+        mode "0644"
+        owner "root"
+        group "root"
+        variables ({
+                :cm_db => "postgresql",
+ 		:cm_dbport => node[:postgres][:dbport]
+        })
+        notifies :restart, "service[cloudera-scm-server]", :immediately
+   end
+end
 service "cloudera-scm-server" do
 	action [:start, :enable]
 	supports :start => true, :restart => true, :stop => true

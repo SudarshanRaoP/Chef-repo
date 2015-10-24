@@ -21,20 +21,20 @@ end
 default['mysql']['password'] = ""
 default['mysql']['connector'] = "mysql-connector-java.jar"
 default['mysql']['connector_path'] = "/usr/share/java"
-
+default['mysql']['dbport'] = "3306"
 default['postgres']['version'] = "9.1"
 default['postgres']['dbport'] = "5432"
 default['postgres']['apt_key'] = "https://www.postgresql.org/media/keys/ACCC4CF8.asc"
 #Cloudera manager Server settings
 default['cm']['port'] = "7182"
-default['cm']['database'] = "mysql"
+default['cm']['database'] = "postgres"
 default['cm']['java_home'] = "#{node[:java][:home]}" #Comes from java_setup cookbook
 default['cm']['dbname'] = "scm"
 default['cm']['dbuser'] = "scm"
 default['cm']['dbpasswd'] = "scm"
-default['cm_server']['hostname'] = ""
+default['cm_server']['hostname'] = "vagrant-ubuntu-precise-64"
 default['cm_server']['ipaddress'] = Socket::getaddrinfo(node['cm_server']['hostname'],Socket::AF_INET)[0][3]
-default['cm']['dbhost'] = ""
+default['cm']['dbhost'] = "vagrant-ubuntu-precise-64"
 default['cm']['version'] = "5" # Single digit
 
 ##Settings validation
