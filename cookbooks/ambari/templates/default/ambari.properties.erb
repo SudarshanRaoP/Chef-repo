@@ -30,9 +30,9 @@ server.jdbc.database_name=<%=@dbname%>
 server.jdbc.driver=<%=@dbdriver%>
 server.jdbc.hostname=<%=@dbhost%>
 server.jdbc.port=<%=@dbport%>
-<%= if node[:ambari][:database] == "postgres"%>
+<%if node[:ambari][:database] == "postgres"%>
 server.jdbc.postgres.schema=public
-<%=end%>
+<%end%>
 server.jdbc.rca.driver=<%=@dbdriver%>
 server.jdbc.rca.url=<%=@jdbcurl%>
 
