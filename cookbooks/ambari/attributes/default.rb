@@ -10,7 +10,7 @@ default['apt']['key'] = "B9733A7A07513CAD"
 #General
 default['ambari']['java_home'] = "#{node[:java][:home]}"
 default['ambari-server']['user'] = "root"
-default['ambari-server']['hostname'] = ""
+default['ambari-server']['hostname'] = "vagrant-ubuntu-precise-64"
 default['ambari-server']['ipaddress'] = Socket::getaddrinfo(node['ambari-server']['hostname'],Socket::AF_INET)[0][3] 
 
 #Database
@@ -18,7 +18,7 @@ default["ambari"]["database"] = "postgres"
 default["ambari"]["dbname"] = "ambari"
 default["ambari"]["dbuser"] = "ambari"
 default["ambari"]["dbpasswd"] = "ambari_password"
-default["ambari"]["dbhost"] = ""   #"#{node['ambari-server']['hostname']}"
+default["ambari"]["dbhost"] = "vagrant-ubuntu-precise-64"   #"#{node['ambari-server']['hostname']}"
 
 #Postgresql
 default["postgres"]["version"] = "9.1"
@@ -28,14 +28,14 @@ default["postgres"]["password"] = "postgres"
 default["postgres"]["dbport"] = "5432"
 default["postgres"]["dbdriver"] = "org.postgresql.Driver"
 default["postgres"]["schema"] = "public"
-default["postgres"]["jdbc_url"] = "jdbc:postgresql://#{node[:ambari][:dbhost]}:#{node[:ambari][:postgres][:dbport]}/#{node[:ambari][:dbname]}"
+default["postgres"]["jdbc_url"] = "jdbc:postgresql://#{node[:ambari][:dbhost]}:#{node[:postgres][:dbport]}/#{node[:ambari][:dbname]}"
 
 #MySQL
 default["mysql"]["username"] = "root" 
 default["mysql"]["password"] = ""
 default["mysql"]["dbport"] = "3306"
 default["mysql"]["dbdriver"] = "com.mysql.jdbc.Driver"
-default["mysql"]["jdbc_url"] = "jdbc:mysql://#{node[:ambari][:dbhost]}:#{node[:ambari][:mysql][:dbport]}/#{node[:ambari][:dbname]}"
+default["mysql"]["jdbc_url"] = "jdbc:mysql://#{node[:ambari][:dbhost]}:#{node[:mysql][:dbport]}/#{node[:ambari][:dbname]}"
 
 
 #Database JDBC url

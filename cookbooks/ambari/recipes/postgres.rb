@@ -41,7 +41,7 @@ when "ubuntu"
   not_if do ((%x(sudo apt-key list)).include? 'PostgreSQL Debian Repository') end
   end
   apt_package "postgresql-#{node[:postgres][:version]}" do
-    notifies :run, "bash[cm_db_user_setup_pg]", :delayed
+    notifies :run, "bash[ambari_db_user_setup_pg]", :delayed
   end
   service "postgresql" do
     action [:start, :enable]
