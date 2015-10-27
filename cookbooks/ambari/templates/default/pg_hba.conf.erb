@@ -66,6 +66,7 @@
 #
 # "local" is for Unix domain socket connections only
 #local   all         all                               ident
+local	<%=node[:ambari][:dbname]%>	<%=node[:ambari][:dbuser]%>		md5
 local	all	postgres				peer
 # IPv4 local connections:
 host    all         all         127.0.0.1/32          ident

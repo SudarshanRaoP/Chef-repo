@@ -1,4 +1,19 @@
 require 'socket'
+
+if node[:platform] == "ubuntu"
+  case node[:platform_version][/^.{2}/]
+    when "10"
+      default['ubuntu_release'] = "lucid"
+    when "12"
+      default['ubuntu_release'] = "precise"
+    when "14"
+      default['ubuntu_release'] = "trusty"
+    else
+      Chef::Log.error("Ambari only support Ubuntu 14.x/12.x/10.x")
+      raise
+  end
+end
+
 #Repository
 default['ambari']['reposerver'] = "http://public-repo-1.hortonworks.com"
 default['ambari']['version'] = "2.0.0"

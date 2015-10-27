@@ -54,7 +54,8 @@ file "/etc/ambari-server/conf/password.dat" do
 	owner "#{node['ambari-server']['user']}"
 	group "#{node['ambari-server']['user']}"
 end
-
+case node[:platform]
+when "ubuntu"
 template "/etc/ambari-server/conf/ambari.properties" do
 	source "ambari.properties.erb"
 	mode "0644"
@@ -64,6 +65,9 @@ template "/etc/ambari-server/conf/ambari.properties" do
 	variables({
 	:javahome => node[:ambari][:java_home],
 	:jdbcurl => node['ambari-server']['jdbc_url'],
+	:os_family => 'debian',
+	:os_type => node[:platform],
+	:majorrelease => node[:platform_version][/^.{2}/],
 	:dbname => node[:ambari][:dbname],
 	:dbdriver => node['ambari-server']['jdbc_driver'],
 	:dbhost => node[:ambari][:dbhost],
@@ -72,7 +76,27 @@ template "/etc/ambari-server/conf/ambari.properties" do
 	:dbport => node['ambari-server']['dbport']
 	})
 end
-
+when "redhat", "centos"
+template "/etc/ambari-server/conf/ambari.properties" do
+        source "ambari.properties.erb"
+        mode "0644"
+        group "root"
+        owner "root"
+        notifies :restart, "service[ambari-server]", :delayed
+        variables({
+        :javahome => node[:ambari][:java_home],
+        :jdbcurl => node['ambari-server']['jdbc_url'],
+        :os_family => 'redhat',
+	:os_type => node[:platform],
+        :majorrelease => node[:platform_version][/^.{1}/],
+        :dbname => node[:ambari][:dbname],
+        :dbdriver => node['ambari-server']['jdbc_driver'],
+        :dbhost => node[:ambari][:dbhost],
+        :dbuser => node[:ambari][:dbuser],      
+        :ambari_user => node['ambari-server']['user'],
+        :dbport => node['ambari-server']['dbport']
+        })
+end
 service "ambari-server" do
 	init_command "/etc/init.d/ambari-server"
 	action [:start, :enable]
