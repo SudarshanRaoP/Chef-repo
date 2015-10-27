@@ -18,7 +18,7 @@
 
 case node[:platform]
 when "ubuntu"
-  template "/etc/apt/source.list.d/ambari.list" do
+  template "/etc/apt/sources.list.d/ambari.list" do
     source "ambari.list.erb"
     mode "0644"
     owner "root"
@@ -32,7 +32,7 @@ when "ubuntu"
   execute "apt-key-add" do
     command "sudo apt-key adv --recv-keys --keyserver #{node[:apt][:key_server]} #{node[:apt][:key]} && sudo apt-get update"
     not_if do (%x(sudo apt-key list)).include? 'hortonworks' end
-    notifies :run, "execute[sudo apt-get update -y]"
+    notifies :run, "execute[sudo apt-get update -y]" ,:immediately
   end
   execute "sudo apt-get update -y" do
     action :nothing
